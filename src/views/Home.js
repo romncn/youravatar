@@ -1,25 +1,6 @@
 import React, { useState } from 'react';
-import styled from "styled-components";
-import {
-    Form as AntForm,
-    Input as AntInput,
-    Button as AntButton,
-    Select as AntSelect,
-    Row, Col,
-    Card
-} from 'antd';
-import { ManOutlined, WomanOutlined } from '@ant-design/icons';
 import SetProfile from '../components/SetProfile';
 import ShowAvatar from '../components/ShowAvatar';
-
-const TitlePage = styled.div`
-    font-size: 48px;
-    font-weight: bold;
-    color: #e66f0f;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    text-align: center;
-`;
 
 function Home() {
     const [name, setName] = useState("");
@@ -30,15 +11,17 @@ function Home() {
 
     const StepComponent = () => {
         if (step === 2) {
-            return <ShowAvatar />
+            return <ShowAvatar birthMonth={birthMonth} birthDay={birthDay} gender={gender} />
         } else {
-            return <SetProfile setStep={setStep} />
+            return <SetProfile setStep={setStep} setName={setName}
+                gender={gender} setGender={setGender}
+                setBirthDay={setBirthDay}
+                birthMonth={birthMonth} setBirthMonth={setBirthMonth} />
         }
     }
 
     return (
         <>
-            <TitlePage>Your Avatar</TitlePage>
             <>{StepComponent()}</>
         </>
     )
