@@ -10,6 +10,15 @@ import {
 } from 'antd';
 import { ManOutlined, WomanOutlined } from '@ant-design/icons';
 
+const TitlePage = styled.div`
+    font-size: 48px;
+    font-weight: bold;
+    color: #e66f0f;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+`;
+
 const Wrapper = styled.div`
     padding: 0px 200px 0px 200px;
     display: flex;
@@ -112,39 +121,36 @@ function SetProfile(props) {
     const [dayOfMonth, setDayOfMonth] = useState(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
         '31'])
     const [month, setMonth] = useState(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-    const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [birthDay, setBirthDay] = useState("");
-    const [birthMonth, setBirthMonth] = useState("");
     const [form] = AntForm.useForm();
 
     useEffect(() => {
         form.setFieldsValue({
-            gender: gender,
-            month: birthMonth,
+            gender: props.gender,
+            month: props.birthMonth,
         })
-    }, [gender, birthMonth])
+    }, [props.gender, props.birthMonth])
 
     const onFinish = values => {
-        setName(values.name)
-        setGender(gender)
-        setBirthDay(values.day)
-        setBirthMonth(birthMonth)
+        props.setName(values.name)
+        props.setGender(props.gender)
+        props.setBirthDay(values.day)
+        props.setBirthMonth(props.birthMonth)
         props.setStep(2)
     };
 
     const onSelectGender = (gender) => {
         if (gender === 'male') {
-            setGender('male')
+            props.setGender('male')
         } else if (gender === 'female') {
-            setGender('female')
+            props.setGender('female')
         } else {
-            setGender('none')
+            props.setGender('none')
         }
     }
 
     return (
         <AntForm form={form} onFinish={onFinish}>
+            <TitlePage>Your Avatar</TitlePage>
             <Wrapper>
                 <ContentCard>
                     <AntForm.Item name="name" label="Name" labelCol={{ span: 24 }} rules={[{ required: true }]}>
@@ -153,7 +159,7 @@ function SetProfile(props) {
                     <AntForm.Item name="gender" label="Gender" labelCol={{ span: 24 }} rules={[{ required: true }]}>
                         <Row justify="space-around" gutter={18}>
                             <AntCol span={12}>
-                                {gender === 'male' ?
+                                {props.gender === 'male' ?
                                     <MaleCardSelected onClick={() => onSelectGender('male')}>
                                         <ManOutlined /> Male
                                     </MaleCardSelected>
@@ -164,7 +170,7 @@ function SetProfile(props) {
                                 }
                             </AntCol>
                             <AntCol span={12}>
-                                {gender === 'female' ?
+                                {props.gender === 'female' ?
                                     <FeMaleCardSelected onClick={() => onSelectGender('female')} >
                                         <WomanOutlined /> Female
                                     </FeMaleCardSelected>
@@ -192,7 +198,7 @@ function SetProfile(props) {
                             {month.map((month) => {
                                 return (
                                     <AntCol lg={6} md={8} sm={24} xs={24}>
-                                        <MonthCard selected={month === birthMonth} onClick={() => setBirthMonth(month)} >
+                                        <MonthCard selected={month === props.birthMonth} onClick={() => props.setBirthMonth(month)} >
                                             {month}
                                         </MonthCard>
                                     </AntCol>

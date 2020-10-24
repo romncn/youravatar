@@ -6,8 +6,8 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 body {
+    height: 100%;
     margin: 0;
-    padding: 0;
     font-family: 'Mitr', sans-serif;
     font-weight: 500;
   }
