@@ -68,6 +68,11 @@ const MaleCard = styled(AntCard)`
     cursor: pointer;
 `;
 
+const MaleCardSelected = styled(MaleCard)`
+    background-color: #356BCA;
+    color: #F7F7F7;
+`;
+
 const FeMaleCard = styled(AntCard)`
     margin: 10px 15px 10px 15px;
     padding: 10px 0px 10px 0px;
@@ -80,11 +85,16 @@ const FeMaleCard = styled(AntCard)`
     cursor: pointer;
 `;
 
+const FeMaleCardSelected = styled(FeMaleCard)`
+    background-color: #F75277;
+    color: #F7F7F7;
+`;
+
 const MonthCard = styled(AntCard)`
     margin: 10px 20px 10px 20px;
     font-size: 18px;
     color: #e66f0f;
-    &:hover , &:active, &:focus {
+    &:hover , &:active, &:focus{
         background-color: #e66f0f;
         color: #F7F7F7;
     }
@@ -110,10 +120,27 @@ function Home() {
     const [dayOfMonth, setDayOfMonth] = useState(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
         '31'])
     const [month, setMonth] = useState(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [birthDay, setBirthDay] = useState("");
+    const [birthMonth, setBirthMonth] = useState("");
 
     const onFinish = values => {
-        alert('hello')
+        setName(values.name)
+        setGender(gender)
+        setBirthDay(values.day)
+        setBirthMonth(birthMonth)
     };
+
+    const onSelectGender = (gender) => {
+        if (gender === 'male') {
+            setGender('male')
+        } else if (gender === 'female') {
+            setGender('female')
+        } else {
+            setGender('none')
+        }
+    }
 
     return (
         <AntForm onFinish={onFinish}>
@@ -123,17 +150,29 @@ function Home() {
                     <AntForm.Item name="name" label="Name" labelCol={{ span: 24 }} rules={[{ required: true }]}>
                         <InputComponent placeholder="Input your name" />
                     </AntForm.Item>
-                    <AntForm.Item name="gender" label="Gender" labelCol={{ span: 24 }} rules={[{ required: true }]}>
+                    <AntForm.Item name="gender" label="Gender" labelCol={{ span: 24 }}>
                         <Row justify="space-around" gutter={18}>
                             <AntCol span={12}>
-                                <MaleCard>
-                                    <ManOutlined />
-                                </MaleCard>
+                                {gender === 'male' ?
+                                    <MaleCardSelected onClick={() => onSelectGender('male')}>
+                                        <ManOutlined />
+                                    </MaleCardSelected>
+                                    :
+                                    <MaleCard onClick={() => onSelectGender('male')}>
+                                        <ManOutlined />
+                                    </MaleCard>
+                                }
                             </AntCol>
                             <AntCol span={12}>
-                                <FeMaleCard>
-                                    <WomanOutlined />
-                                </FeMaleCard>
+                                {gender === 'female' ?
+                                    <FeMaleCardSelected onClick={() => onSelectGender('female')} >
+                                        <WomanOutlined />
+                                    </FeMaleCardSelected>
+                                    :
+                                    <FeMaleCard onClick={() => onSelectGender('female')} >
+                                        <WomanOutlined />
+                                    </FeMaleCard>
+                                }
                             </AntCol>
                         </Row>
                     </AntForm.Item>
@@ -148,12 +187,12 @@ function Home() {
                             })}
                         </AntSelect>
                     </AntForm.Item>
-                    <AntForm.Item name="month" label="BirthMonth" labelCol={{ span: 24 }} rules={[{ required: true }]}>
+                    <AntForm.Item name="month" label="BirthMonth" labelCol={{ span: 24 }}>
                         <Row justify="space-around">
                             {month.map((month) => {
                                 return (
                                     <AntCol lg={6} md={8} sm={24} xs={24}>
-                                        <MonthCard>
+                                        <MonthCard onClick={() => setBirthMonth(month)} >
                                             {month}
                                         </MonthCard>
                                     </AntCol>
